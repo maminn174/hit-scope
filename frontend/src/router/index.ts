@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 import StartPage from "../views/StartPage.vue";
 import MainPage from "../views/MainPage.vue";
+import RegisterPage from "../views/RegisterPage.vue"
 
 const router = createRouter({
   history: createWebHistory(),
@@ -9,6 +10,10 @@ const router = createRouter({
     {
       path: '/',
       component: StartPage,
+    },
+    {
+      path: '/register',
+      component: RegisterPage,
     },
     {
       path: '/main',

@@ -9,7 +9,7 @@ const password = ref('')
 const error = ref('')
 const isLoading = ref(false)
 
-const submitLogin = async () => {
+async function submitLogin() {
   isLoading.value = true
   error.value = ''
 
@@ -43,6 +43,11 @@ const submitLogin = async () => {
     isLoading.value = false
   }
 }
+
+function goToRegister() {
+  router.push('/register')
+}
+
 </script>
 
 <template>
@@ -89,6 +94,13 @@ const submitLogin = async () => {
           {{ isLoading ? 'Вход...' : 'Войти' }}
         </button>
       </form>
+
+      <button
+          type="button"
+          @click="goToRegister"
+      >
+        Зарегистрироваться
+      </button>
     </section>
   </main>
 </template>

@@ -2,6 +2,7 @@ package com.example.vue3springproject.controller;
 
 import com.example.vue3springproject.dto.AuthResponse;
 import com.example.vue3springproject.dto.LoginRequest;
+import com.example.vue3springproject.dto.RegisterRequest;
 import com.example.vue3springproject.entity.User;
 import com.example.vue3springproject.service.UserService;
 import jakarta.servlet.http.HttpSession;
@@ -73,6 +74,24 @@ public class AuthController {
         session.invalidate();
 
         return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<?> register(@RequestBody RegisterRequest request) {
+        boolean loginExists = userService.existsByLogin(request.getLogin());
+
+        if (loginExists) {
+            return ResponseEntity.status(409).build();
+        }
+
+        User user = new User();
+
+        user.setLogin(request.getLogin());
+        user.setPasswordHash(request.getPassword());
+
+        userService.createUser(user);
+
+        return ResponseEntity.status(201).build();
     }
 }
 

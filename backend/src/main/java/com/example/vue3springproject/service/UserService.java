@@ -76,4 +76,8 @@ public class UserService {
 
         return user;
     }
+
+    public boolean existsByLogin(String login) {
+        return userRepository.findByLogin(login).isPresent();
+    }
 }
