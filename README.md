@@ -1,4 +1,4 @@
-# Lab Project
+# Hit Scope
 
 Full-stack application with a Spring Boot backend, PostgreSQL database, and Vue 3 frontend.
 
