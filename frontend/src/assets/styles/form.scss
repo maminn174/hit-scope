@@ -1,0 +1,52 @@
+@use './controls';
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+
+  h2 {
+    margin: 0 0 20px;
+    color: #111827;
+    text-align: center;
+  }
+
+  &__inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+
+  &__input {
+    @extend .ui-input;
+  }
+
+  &__actions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    justify-content: center;
+    align-items: stretch;
+  }
+
+  &__button {
+    @extend .ui-button;
+    width: 100%;
+  }
+
+  &__button--primary {
+    @extend .ui-button--primary;
+  }
+
+  &__button--secondary {
+    @extend .ui-button--secondary;
+  }
+
+  &__error {
+    margin: 0;
+    color: #dc2626;
+    font-size: 14px;
+    text-align: center;
+  }
+}

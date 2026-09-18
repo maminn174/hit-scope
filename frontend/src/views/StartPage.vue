@@ -54,58 +54,73 @@ function goToRegister() {
   <main class="start-page">
     <section class="start-page__content">
       <h1 class="start-page__title">
-        Лабораторная работа
+        HitScope
       </h1>
 
       <p class="start-page__text">
-        Vue 3 + Spring Boot
+        Интерактивная проверка точек на координатной плоскости
       </p>
 
-      <form @submit.prevent="submitLogin">
-        <div>
+      <form
+          class="form"
+          @submit.prevent="submitLogin"
+      >
+        <h2>Войти в проект</h2>
+        <div class="form__inputs">
           <label>
-            Логин
             <input
+              class="form__input"
               v-model="login"
               type="text"
               autocomplete="username"
+              placeholder="Введите логин"
             >
           </label>
-        </div>
-        <div>
           <label>
-            Пароль
             <input
+                class="form__input"
                 v-model="password"
                 type="password"
                 autocomplete="current-password"
+                placeholder="Введите пароль"
             >
           </label>
         </div>
 
-        <p v-if="error">
-          {{ error }}
-        </p>
 
-        <button
-          type="submit"
-          :disabled="isLoading"
-        >
-          {{ isLoading ? 'Вход...' : 'Войти' }}
-        </button>
+
+        <div class="form__actions">
+          <p
+              class="form__error"
+              v-if="error"
+          >
+            {{ error }}
+          </p>
+          <button
+              class="form__button form__button--primary"
+              type="submit"
+              :disabled="isLoading"
+          >
+            {{ isLoading ? 'Вход...' : 'Войти' }}
+          </button>
+          <button
+              class="form__button form__button--secondary"
+              type="button"
+              @click="goToRegister"
+          >
+            Зарегистрироваться
+          </button>
+        </div>
       </form>
 
-      <button
-          type="button"
-          @click="goToRegister"
-      >
-        Зарегистрироваться
-      </button>
+
     </section>
   </main>
 </template>
 
 <style scoped lang="scss">
+@use '../assets/styles/form.scss';
+
 .start-page {
   min-height: 100vh;
   display: flex;
@@ -124,6 +139,7 @@ function goToRegister() {
 
   &__text {
     margin-bottom: 24px;
+    color: #4b5563;
   }
 
   &__button {
@@ -159,4 +175,5 @@ function goToRegister() {
     }
   }
 }
+
 </style>

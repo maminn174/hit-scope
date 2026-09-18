@@ -86,26 +86,6 @@ async function loadPoints() {
   }
 }
 
-async function addPoint() {
-  const response = await fetch("http://localhost:8080/api/points", {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      x: x.value,
-      y: y.value,
-      r: r.value,
-    })
-  })
-
-  if (!response.ok) {
-    throw new Error(`Ошибка запроса: ${response.status}`)
-  }
-
-  await loadPoints()
-}
-
 async function handlePointSelect(x: number, y:number) {
   await submitPoint(x, y)
 }
@@ -114,7 +94,7 @@ async function loadResults() {
   try {
     const response = await axios.get<PointResult[]>('http://localhost:8080/api/points')
     
-    results.value = response.data
+    results.value = [...response.data].sort((a, b) => b.id - a.id)
   } catch (error) {
     console.error('Ошибка при загрузке результатов:', error)
   }
@@ -128,7 +108,7 @@ async function submitPoint(xValue: number, yValue: number) {
       r: r.value,
     })
 
-    results.value.push(response.data)
+    results.value.unshift(response.data)
   } catch (error) {
     console.error('Ошибка при отправке точки:', error)
   }
@@ -187,6 +167,7 @@ onMounted(() => {
     <div class="header">
       <h1>Основная страница</h1>
       <button
+          class="ui-button ui-button--danger logout-button"
           type="button"
           @click="logout"
       >
@@ -205,7 +186,7 @@ onMounted(() => {
       <div class="point-form">
         <label>
           X
-          <select v-model.number="x" class="input-height">
+          <select v-model.number="x" class="ui-input">
             <option
                 v-for="value in selectValues"
                 :key="value"
@@ -222,13 +203,13 @@ onMounted(() => {
               v-model="y"
               type="text"
               placeholder="-3 ... 3"
-              class="input-height"
+              class="ui-input"
           />
         </label>
 
         <label>
           R
-          <select v-model.number="r" class="input-height">
+          <select v-model.number="r" class="ui-input">
             <option
                 v-for="value in selectValues"
                 :key="value"
@@ -247,16 +228,28 @@ onMounted(() => {
         </p>
 
         <div class="form-actions">
-          <button @click="handleSubmit">
+          <button
+              class="ui-button ui-button--primary"
+              type="button"
+              @click="handleSubmit"
+          >
             Проверить точку
           </button>
 
-          <button @click="handleReset">
+          <button
+              class="ui-button ui-button--secondary"
+              type="button"
+              @click="handleReset"
+          >
             Сбросить
           </button>
         </div>
 
-        <button @click="clearResults">
+        <button
+            class="ui-button ui-button--danger clear-button"
+            type="button"
+            @click="clearResults"
+        >
           Очистить все проверки
         </button>
       </div>
@@ -280,7 +273,12 @@ onMounted(() => {
           <td>{{ formatCoordinate(result.x) }}</td>
           <td>{{ formatCoordinate(result.y) }}</td>
           <td>{{ result.r }}</td>
-          <td>
+          <td
+              :class="[
+                'result-status',
+                result.hit ? 'result-status--hit' : 'result-status--miss',
+              ]"
+          >
             {{ result.hit ? 'Попадание' : 'Промах' }}
           </td>
         </tr>
@@ -291,20 +289,12 @@ onMounted(() => {
 
     <p v-else-if="error">{{ error }}</p>
 
-    <RouterLink to="/">
-      <button
-          type="button"
-      >
-        Назад
-      </button>
-
-    </RouterLink>
-
 
   </main>
 </template>
 
 <style scoped lang="scss">
+@use '../assets/styles/controls.scss';
 @use '../assets/styles/mixins' as *;
 
 table {
@@ -320,9 +310,28 @@ td {
   text-align: center;
 }
 
+.result-status {
+  font-weight: 700;
+}
+
+.result-status--hit {
+  color: #15803d;
+}
+
+.result-status--miss {
+  color: #dc2626;
+}
+
 .header {
   display: flex;
+  align-items: center;
   justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.logout-button {
+  min-height: 42px;
 }
 
 .svg {
@@ -352,12 +361,18 @@ td {
   display: flex;
   flex-direction: column;
   gap: 6px;
+  color: #374151;
+  font-weight: 700;
 }
 
 .form-actions {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 10px;
+  gap: 12px;
+}
+
+.clear-button {
+  width: 100%;
 }
 
 .error-message {
@@ -366,11 +381,18 @@ td {
   font-size: 14px;
 }
 
-.input-height {
-  height: 50px;
-  font-size: 25px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+@media (max-width: 520px) {
+  .header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .logout-button {
+    width: 100%;
+  }
+
+  .form-actions {
+    grid-template-columns: 1fr;
+  }
 }
 </style>

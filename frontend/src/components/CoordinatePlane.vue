@@ -11,8 +11,6 @@ type PointResult = {
   hit: boolean
 }
 
-import { ref } from 'vue'
-
 const size = 400
 const center = size / 2
 const step = 50
@@ -203,8 +201,33 @@ function handleClick(event: MouseEvent) {
 </template>
 
 <style scoped>
-  .coordinate-plane {
-    border: 1px solid #ccc;
-    background-color: #fff;
-  }
+.coordinate-plane {
+  width: min(100%, 420px);
+  height: auto;
+  padding: 10px;
+  background:
+    linear-gradient(#eef2ff 1px, transparent 1px),
+    linear-gradient(90deg, #eef2ff 1px, transparent 1px),
+    #fff;
+  background-size: 50px 50px;
+  border: 1px solid #dbe3ef;
+  border-radius: 12px;
+  cursor: crosshair;
+}
+
+.coordinate-plane line,
+.coordinate-plane polyline {
+  stroke: #334155;
+}
+
+.coordinate-plane text {
+  fill: #475569;
+  font-weight: 700;
+  user-select: none;
+}
+
+.coordinate-plane circle {
+  stroke: #fff;
+  stroke-width: 2;
+}
 </style>
