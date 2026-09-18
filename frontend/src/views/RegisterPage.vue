@@ -117,7 +117,6 @@ async function submitRegister() {
 
   &__title {
     margin: 0 0 12px;
-    color: #111827;
     font-size: 36px;
     text-align: center;
   }
