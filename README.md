@@ -145,7 +145,7 @@ Make sure the following tools are installed:
 Create a PostgreSQL database:
 
 ```sql
-CREATE DATABASE lab_project;
+CREATE DATABASE hit_scope;
 ```
 
 Set the database password as an environment variable:
@@ -157,7 +157,7 @@ DB_PASSWORD=your_postgres_password
 The backend uses the following configuration:
 
 ```properties
-spring.datasource.url=jdbc:postgresql://localhost:5432/lab_project
+spring.datasource.url=jdbc:postgresql://localhost:5432/hit_scope
 spring.datasource.username=postgres
 spring.datasource.password=${DB_PASSWORD}
 ```
